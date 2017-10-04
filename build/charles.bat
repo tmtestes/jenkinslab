@@ -4,5 +4,7 @@ echo Processo de testes automatizados Charles
 if exist build/config.xml (
     echo Executando o Charles Console usando o arquivo config.xml
 ) else (
-    echo Arquivo de configuração não encontrado
+    SET MESSAGE1=Arquivo de configuração não encontrado
+    SET ERRORLEVEL=1
+    echo !MESSAGE%ERRORLEVEL%!
 )

@@ -3,8 +3,8 @@ echo Processo de testes automatizados Charles
 
 if exist c:/Charles/config.xml (
     echo Executando o Charles Console usando o arquivo config.xml
-    START c:/Charles/Executavel/CharlesConsole.exe "c:/Charles/config.xml"
-    exit 0
+    start /min cmd /c "c:/Charles/Executavel/CharlesConsole.exe c:/Charles/config.xml || call echo %^errorLevel% > exitcode.txt"
+    exit %^errorLevel%   
 ) else (
     echo Arquivo de configuração não encontrado
     exit 1

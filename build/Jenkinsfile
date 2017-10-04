@@ -23,7 +23,7 @@ pipeline {
                 label 'w10_lab'
             }
             steps {
-                bat 'charles.bat'
+                bat 'build/charles.bat'
                 echo 'Testing..'
             }
         }

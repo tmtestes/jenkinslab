@@ -1,0 +1,31 @@
+// Declarative //
+pipeline {
+    agent none
+    stages {
+        stage('Build') {
+                agent {
+                    label 'master'
+                }
+                steps {
+                    echo 'Building..'
+                }
+            }
+        stage('Deploy') {
+            agent {
+                label 'master'
+            }
+            steps {
+                echo 'Deploying....'
+            }
+        }
+        stage('Testing with Charles') {
+            agent {
+                label 'w10_lab'
+            }
+            steps {
+                bat 'charles.bat'
+                echo 'Testing..'
+            }
+        }
+    }
+}

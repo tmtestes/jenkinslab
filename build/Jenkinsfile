@@ -10,14 +10,6 @@ pipeline {
                     echo 'Building..'
                 }
             }
-        stage('Deploy') {
-            agent {
-                label 'master'
-            }
-            steps {
-                echo 'Deploying....'
-            }
-        }
         stage('Testing with Charles') {
             agent {
                 label 'w10_lab'
@@ -26,6 +18,15 @@ pipeline {
                 bat 'build/charles.bat'
                 echo 'Testing..'
             }
+        }        
+        stage('Deploy') {
+            agent {
+                label 'master'
+            }
+            steps {
+                echo 'Deploying....'
+            }
         }
+
     }
 }

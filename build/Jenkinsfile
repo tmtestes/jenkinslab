@@ -17,7 +17,7 @@ pipeline {
             steps {
                 bat 'build/charles.bat'
                 echo 'Testing..'
-                emailext attachLog: true, body: 'Teste finalizado com sucesso', subject: 'Pipeline', to: 'mauricio.freire@tmtestes.com.br'
+                emailext attachLog: true, body: '<html><h2>Teste finalizado com sucesso</h2></html>', subject: 'Pipeline', from: 'jenkins@tmtestes.com.br',to: 'mauricio.freire@tmtestes.com.br'
             }
         }        
         stage('Deploy') {

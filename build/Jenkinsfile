@@ -17,7 +17,15 @@ pipeline {
             steps {
                 bat 'build/charles.bat'
                 echo 'Testing..'
-                emailext attachLog: true, body: '<html><h2>Teste finalizado com sucesso</h2></html>', subject: 'Pipeline', from: 'jenkins@tmtestes.com.br',to: 'mauricio.freire@tmtestes.com.br'
+                emailext (
+                        body: '<html><h2>Teste finalizado com sucesso</h2></html>',
+                      , attachmentsPattern: '**/*.png',
+                      , attachLog: true
+                      , from: env.DEFAULT_REPLYTO,
+                      , replyTo: env.DEFAULT_REPLYTO,
+                      , subject: 'Pipeline results',
+                      , to: 'mauricio.freire@tmtestes.com.br''
+                   )
             }
         }        
         stage('Deploy') {

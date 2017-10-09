@@ -6,9 +6,9 @@ if exist c:/Charles/config.xml (
     echo Detalhes:  
     start /B /WAIT "" "c:\Charles\Release\CharlesConsole.exe" "c:\Charles\config.xml"
     REM start /B /WAIT "" "C:\poc\headlesschrome\selenium_with_nodes.exe" 
-    echo Fim a execução do Charles Console usando o arquivo config.xml - $ERRORLEVEL
+    echo Fim a execução do Charles Console usando o arquivo config.xml - %ERRORLEVEL%
     echo %ERRORLEVEL%
-    exit $ERRORLEVEL   
+    exit %ERRORLEVEL%
 ) else (
     echo Arquivo de configuração não encontrado
     exit 1

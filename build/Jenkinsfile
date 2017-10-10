@@ -29,36 +29,35 @@ pipeline {
             }
         }
 
-    }
-    post {
-        agent {
-            label 'master'
-        }        
-        success {
-            emailext (
-                body: readFile("build/success.html") 
-                      , attachmentsPattern: '**/*.png'
-                      , attachLog: true
-                      , from: env.DEFAULT_REPLYTO
-                      , replyTo: env.DEFAULT_REPLYTO
-                      , subject: 'Pipeline results'
-                      , to: 'mauricio.freire@tmtestes.com.br'
-                      )
-        
-        
+        post {
+            agent {
+                label 'master'
+            }        
+            success {
+                emailext (
+                    body: readFile("build/success.html") 
+                          , attachmentsPattern: '**/*.png'
+                          , attachLog: true
+                          , from: env.DEFAULT_REPLYTO
+                          , replyTo: env.DEFAULT_REPLYTO
+                          , subject: 'Pipeline results'
+                          , to: 'mauricio.freire@tmtestes.com.br'
+                          )
+
+
+            }
+            failure {
+                emailext (
+                            body: readFile("build/failure.html")
+                          , attachmentsPattern: '**/*.png'
+                          , attachLog: true
+                          , from: env.DEFAULT_REPLYTO
+                          , replyTo: env.DEFAULT_REPLYTO
+                          , subject: 'Pipeline results'
+                          , to: 'mauricio.freire@tmtestes.com.br'
+                        )
+
+            }
         }
-        failure {
-            emailext (
-                        body: readFile("build/failure.html")
-                      , attachmentsPattern: '**/*.png'
-                      , attachLog: true
-                      , from: env.DEFAULT_REPLYTO
-                      , replyTo: env.DEFAULT_REPLYTO
-                      , subject: 'Pipeline results'
-                      , to: 'mauricio.freire@tmtestes.com.br'
-                    )
-        
-        }
-    
     }
 }

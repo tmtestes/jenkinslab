@@ -31,7 +31,7 @@ pipeline {
 
     }
     post {
-        sucess {
+        success {
             emailext (
                         body: '<html><h2>Teste finalizado com sucesso</h2></html>'
                       , attachmentsPattern: '**/*.png'

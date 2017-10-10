@@ -17,15 +17,6 @@ pipeline {
             steps {
                 bat 'build/charles.bat'
                 echo 'Testing..'
-                emailext (
-                        body: '<html><h2>Teste finalizado com sucesso</h2></html>'
-                      , attachmentsPattern: '**/*.png'
-                      , attachLog: true
-                      , from: env.DEFAULT_REPLYTO
-                      , replyTo: env.DEFAULT_REPLYTO
-                      , subject: 'Pipeline results'
-                      , to: 'mauricio.freire@tmtestes.com.br'
-                   )
             }
         }        
         stage('Deploy') {
@@ -40,10 +31,29 @@ pipeline {
 
     }
     post {
+        sucess {
+            emailext (
+                        body: '<html><h2>Teste finalizado com sucesso</h2></html>'
+                      , attachmentsPattern: '**/*.png'
+                      , attachLog: true
+                      , from: env.DEFAULT_REPLYTO
+                      , replyTo: env.DEFAULT_REPLYTO
+                      , subject: 'Pipeline results'
+                      , to: 'mauricio.freire@tmtestes.com.br'
+                      )
+        
+        
+        }
         failure {
-             mail     to: 'mauricio.freire@tmtestes.com.br',
-                 subject: "Failed Pipeline: ${currentBuild.fullDisplayName}",
-                    body: "Something is wrong with ${env.BUILD_URL}"
+            emailext (
+                        body: '<html><h2>Erro na execução dos testes</h2></html>'
+                      , attachmentsPattern: '**/*.png'
+                      , attachLog: true
+                      , from: env.DEFAULT_REPLYTO
+                      , replyTo: env.DEFAULT_REPLYTO
+                      , subject: 'Pipeline results'
+                      , to: 'mauricio.freire@tmtestes.com.br'
+                    )
         
         }
     

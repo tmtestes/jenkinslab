@@ -33,7 +33,7 @@ pipeline {
     post {
         success {
             emailext (
-                        body: "build/success.html" 
+                body: readFileFromWS("build/success.html") 
                       , attachmentsPattern: '**/*.png'
                       , attachLog: true
                       , from: env.DEFAULT_REPLYTO

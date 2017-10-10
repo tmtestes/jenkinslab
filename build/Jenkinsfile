@@ -46,7 +46,7 @@ pipeline {
         }
         failure {
             emailext (
-                        body: "build/failure.html"
+                        body: readFileFromWS("build/failure.html")
                       , attachmentsPattern: '**/*.png'
                       , attachLog: true
                       , from: env.DEFAULT_REPLYTO

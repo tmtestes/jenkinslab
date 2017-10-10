@@ -32,6 +32,9 @@ pipeline {
     }
     post {
         success {
+            agent {
+                label 'master'
+            }
             emailext (
                 body: readFile("build/success.html") 
                       , attachmentsPattern: '**/*.png'
@@ -45,6 +48,9 @@ pipeline {
         
         }
         failure {
+            agent {
+                label 'master'
+            }
             emailext (
                         body: readFile("build/failure.html")
                       , attachmentsPattern: '**/*.png'

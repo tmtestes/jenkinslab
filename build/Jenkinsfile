@@ -33,7 +33,7 @@ pipeline {
     post {
         success {
             emailext (
-                body: readFileFromWS("build/success.html") 
+                body: readFile("build/success.html") 
                       , attachmentsPattern: '**/*.png'
                       , attachLog: true
                       , from: env.DEFAULT_REPLYTO
@@ -46,7 +46,7 @@ pipeline {
         }
         failure {
             emailext (
-                        body: readFileFromWS("build/failure.html")
+                        body: readFile("build/failure.html")
                       , attachmentsPattern: '**/*.png'
                       , attachLog: true
                       , from: env.DEFAULT_REPLYTO

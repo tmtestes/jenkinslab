@@ -33,7 +33,7 @@ pipeline {
     post {
         success {
             emailext (
-                        body: '<html><h2>Teste finalizado com sucesso</h2></html>'
+                        body: ${FILE,path="success.html"} 
                       , attachmentsPattern: '**/*.png'
                       , attachLog: true
                       , from: env.DEFAULT_REPLYTO
@@ -46,7 +46,7 @@ pipeline {
         }
         failure {
             emailext (
-                        body: '<html><h2>Erro na execução dos testes</h2></html>'
+                        body: ${FILE,path="failure.html"} 
                       , attachmentsPattern: '**/*.png'
                       , attachLog: true
                       , from: env.DEFAULT_REPLYTO

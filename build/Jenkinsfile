@@ -37,7 +37,7 @@ pipeline {
     post {
         success {
             emailext (
-                body:  ${env.SUCCESS_BODY_MAIL}
+                body:  env.SUCCESS_BODY_MAIL
                       , attachmentsPattern: '**/*.png'
                       , attachLog: true
                       , from: env.REPLY_TO
@@ -50,7 +50,7 @@ pipeline {
         }
         failure {
             emailext (
-                        body:  ${env.FAIL_BODY_MAIL}
+                        body:  env.FAIL_BODY_MAIL
                       , attachmentsPattern: '**/*.png'
                       , attachLog: true
                       , from: env.REPLY_TO

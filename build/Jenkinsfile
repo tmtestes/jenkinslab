@@ -1,11 +1,7 @@
 // Declarative //
 pipeline {
     agent none
-    environment {
-        SUCCESS_BODY_MAIL = readFile 'build/success.html'
-        FAIL_BODY_MAIL    = readFile 'build/success.html'
-        REPLY_TO          = 'jenkins_donotreply@tmtestes.com.br'
-    }
+
     stages {
         stage('Build') {
                 agent {
@@ -35,6 +31,11 @@ pipeline {
         }
     }
     post {
+        environment {
+            SUCCESS_BODY_MAIL = readFile 'build/success.html'
+            FAIL_BODY_MAIL    = readFile 'build/success.html'
+            REPLY_TO          = 'jenkins_donotreply@tmtestes.com.br'
+        }
         success {
             emailext (
                 body:  env.SUCCESS_BODY_MAIL

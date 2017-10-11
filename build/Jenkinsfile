@@ -44,7 +44,7 @@ pipeline {
                               , attachLog: false
                               , from: env.REPLY_TO
                               , replyTo: env.REPLY_TO
-                              , subject: 'Pipeline results - SUCCESS'
+                              , subject: "Pipeline results of Job: '${JOB_NAME}' - (${BUILD_NUMBER}) - Terminated successfully -> Details:  ${BUILD_URL}"  
                               , to: env.MAIL_TO
                               )
           }
@@ -55,9 +55,11 @@ pipeline {
                               , attachLog: true
                               , from: env.REPLY_TO
                               , replyTo: env.REPLY_TO
-                              , subject: 'Pipeline results - FAIL'
+                              , subject: "Pipeline results of Job: '${JOB_NAME}' - (${BUILD_NUMBER}) - Terminated with error -> Details:  ${BUILD_URL}"  
                               , to: env.MAIL_TO
                               )
           }
     }   
 }
+
+"Job '${JOB_NAME}' (${BUILD_NUMBER}) is waiting for input"

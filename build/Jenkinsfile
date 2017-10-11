@@ -35,6 +35,9 @@ pipeline {
         }
     }
     post {
+          agent {
+                label 'master'
+            }
         success {
             emailext (
                 body:  env.SUCCESS_BODY_MAIL

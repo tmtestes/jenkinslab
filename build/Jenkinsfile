@@ -15,15 +15,6 @@ pipeline {
                 steps {
                     echo 'Building..'
                 }
-            }
-        stage('Testing with Charles') {
-            agent {
-                label 'w10_lab'
-            }
-            steps {
-                bat 'build/charles.bat'
-                echo 'Testing..'
-            }
             post {
                 success {
                     emailext (
@@ -50,7 +41,17 @@ pipeline {
                             )
 
                     }
+            }            
             }
+        stage('Testing with Charles') {
+            agent {
+                label 'w10_lab'
+            }
+            steps {
+                bat 'build/charles.bat'
+                echo 'Testing..'
+            }
+           
         }        
         stage('Deploy') {
             agent {

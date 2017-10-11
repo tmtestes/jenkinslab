@@ -1,6 +1,11 @@
 // Declarative //
 pipeline {
     agent none
+    environment {
+        SUCCESS_BODY_MAIL = readFile 'build/success.html'
+        FAIL_BODY_MAIL    = readFile 'build/success.html'
+        REPLY_TO          = 'jenkins_donotreply@tmtestes.com.br'
+    }
     stages {
         stage('Build') {
                 agent {
@@ -32,11 +37,11 @@ pipeline {
     post {
         success {
             emailext (
-                body:  ${SCRIPT, template="html/test.groovy"}
+                body:  ${env.SUCCESS_BODY_MAIL}
                       , attachmentsPattern: '**/*.png'
                       , attachLog: true
-                      , from: env.DEFAULT_REPLYTO
-                      , replyTo: env.DEFAULT_REPLYTO
+                      , from: env.REPLY_TO
+                      , replyTo: env.REPLY_TO
                       , subject: 'Pipeline results'
                       , to: 'mauricio.freire@tmtestes.com.br'
                       )
@@ -45,11 +50,11 @@ pipeline {
         }
         failure {
             emailext (
-                        body: ${SCRIPT, template="html/test.groovy"}
+                        body:  ${env.FAIL_BODY_MAIL}
                       , attachmentsPattern: '**/*.png'
                       , attachLog: true
-                      , from: env.DEFAULT_REPLYTO
-                      , replyTo: env.DEFAULT_REPLYTO
+                      , from: env.REPLY_TO
+                      , replyTo: env.REPLY_TO
                       , subject: 'Pipeline results'
                       , to: 'mauricio.freire@tmtestes.com.br'
                     )

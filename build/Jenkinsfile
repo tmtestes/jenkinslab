@@ -25,7 +25,21 @@ pipeline {
                 bat 'build/charles.bat'
                 echo 'Testing..'
             }
-            post {
+            
+            }            
+           
+        }        
+        stage('Deploy') {
+            agent {
+                label 'master'
+            }
+            steps {
+                echo 'Deploying....'
+                checkout scm
+            }
+        }
+    }
+    post {
                 success {
                     emailext (
                         body:  env.SUCCESS_BODY_MAIL
@@ -49,20 +63,5 @@ pipeline {
                               , subject: 'Pipeline results - FAIL'
                               , to: env.MAIL_TO
                             )
-
                 }
-            }            
-           
-        }        
-        stage('Deploy') {
-            agent {
-                label 'master'
-            }
-            steps {
-                echo 'Deploying....'
-                checkout scm
-            }
-        }
-    }
-   
 }

@@ -2,8 +2,8 @@
 pipeline {
     agent none
     environment {
-        SUCCESS_BODY_MAIL = readFile 'build/success.html'
-        FAIL_BODY_MAIL    = readFile 'build/success.html'
+        SUCCESS_BODY_MAIL = readFile('build/success.html')
+        FAIL_BODY_MAIL    = readFile('build/success.html')
         REPLY_TO          = ''
         MAIL_TO           = 'mauricio.freire@tmtestes.com.br'
     }

@@ -1,7 +1,12 @@
 // Declarative //
 pipeline {
     agent none
-
+    environment {
+        SUCCESS_BODY_MAIL = readFile 'build/success.html'
+        FAIL_BODY_MAIL    = readFile 'build/success.html'
+        REPLY_TO          = 'jenkins_donotreply@tmtestes.com.br'
+        MAIL_TO           = 'mauricio.freire@tmtestes.com.br'
+    }
     stages {
         stage('Build') {
                 agent {
@@ -19,6 +24,33 @@ pipeline {
                 bat 'build/charles.bat'
                 echo 'Testing..'
             }
+            post {
+                success {
+                    emailext (
+                        body:  env.SUCCESS_BODY_MAIL
+                              , attachmentsPattern: '**/*.png'
+                              , attachLog: true
+                              , from: env.REPLY_TO
+                              , replyTo: env.REPLY_TO
+                              , subject: 'Pipeline results - SUCCESS'
+                              , to: env.MAIL_TO
+                              )
+
+
+                }
+                failure {
+                    emailext (
+                                body:  env.FAIL_BODY_MAIL
+                              , attachmentsPattern: '**/*.png'
+                              , attachLog: true
+                              , from: env.REPLY_TO
+                              , replyTo: env.REPLY_TO
+                              , subject: 'Pipeline results - FAIL'
+                              , to: env.MAIL_TO
+                            )
+
+                    }
+            }
         }        
         stage('Deploy') {
             agent {
@@ -30,36 +62,5 @@ pipeline {
             }
         }
     }
-    post {
-        environment {
-            SUCCESS_BODY_MAIL = readFile 'build/success.html'
-            FAIL_BODY_MAIL    = readFile 'build/success.html'
-            REPLY_TO          = 'jenkins_donotreply@tmtestes.com.br'
-        }
-        success {
-            emailext (
-                body:  env.SUCCESS_BODY_MAIL
-                      , attachmentsPattern: '**/*.png'
-                      , attachLog: true
-                      , from: env.REPLY_TO
-                      , replyTo: env.REPLY_TO
-                      , subject: 'Pipeline results'
-                      , to: 'mauricio.freire@tmtestes.com.br'
-                      )
-
-
-        }
-        failure {
-            emailext (
-                        body:  env.FAIL_BODY_MAIL
-                      , attachmentsPattern: '**/*.png'
-                      , attachLog: true
-                      , from: env.REPLY_TO
-                      , replyTo: env.REPLY_TO
-                      , subject: 'Pipeline results'
-                      , to: 'mauricio.freire@tmtestes.com.br'
-                    )
-
-            }
-    }
+   
 }

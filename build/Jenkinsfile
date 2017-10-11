@@ -3,7 +3,7 @@ pipeline {
     agent any
     environment {
           SUCCESS_BODY_MAIL = readFile('build/success.html')
-          FAIL_BODY_MAIL    = readFile('build/success.html')
+          FAIL_BODY_MAIL    = readFile('build/failure.html')
           REPLY_TO          = ''
           MAIL_TO           = 'mauricio.freire@tmtestes.com.br'
     }
@@ -30,7 +30,7 @@ pipeline {
                     emailext (
                         body:  env.SUCCESS_BODY_MAIL
                               , attachmentsPattern: 'build/report/*.*'
-                              , attachLog: true
+                              , attachLog: false
                               , from: env.REPLY_TO
                               , replyTo: env.REPLY_TO
                               , subject: 'Pipeline results - SUCCESS'

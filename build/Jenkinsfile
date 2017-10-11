@@ -2,8 +2,8 @@
 pipeline {
     agent none
     environment {
-        SUCCESS_BODY_MAIL = readFile('build/success.html')
-        FAIL_BODY_MAIL    = readFile('build/success.html')
+   //     SUCCESS_BODY_MAIL = readFile('build/success.html')
+   //     FAIL_BODY_MAIL    = readFile('build/success.html')
         REPLY_TO          = ''
         MAIL_TO           = 'mauricio.freire@tmtestes.com.br'
     }
@@ -18,7 +18,7 @@ pipeline {
             post {
                 success {
                     emailext (
-                        body:  env.SUCCESS_BODY_MAIL
+                        body:  readFile 'build/success.html'
                               , attachmentsPattern: '**/*.png'
                               , attachLog: true
                               , from: env.REPLY_TO
@@ -31,7 +31,7 @@ pipeline {
                 }
                 failure {
                     emailext (
-                                body:  env.FAIL_BODY_MAIL
+                                body:   readFile 'build/success.html'
                               , attachmentsPattern: '**/*.png'
                               , attachLog: true
                               , from: env.REPLY_TO

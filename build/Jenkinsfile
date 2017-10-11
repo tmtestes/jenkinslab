@@ -4,7 +4,7 @@ pipeline {
     environment {
         SUCCESS_BODY_MAIL = readFile 'build/success.html'
         FAIL_BODY_MAIL    = readFile 'build/success.html'
-        REPLY_TO          = 'jenkins_donotreply@tmtestes.com.br'
+        REPLY_TO          = NULL
         MAIL_TO           = 'mauricio.freire@tmtestes.com.br'
     }
     stages {

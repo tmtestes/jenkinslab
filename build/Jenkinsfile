@@ -29,7 +29,7 @@ pipeline {
                 success {
                     emailext (
                         body:  env.SUCCESS_BODY_MAIL
-                              , attachmentsPattern: '**/*.png'
+                              , attachmentsPattern: 'build/report/*.*'
                               , attachLog: true
                               , from: env.REPLY_TO
                               , replyTo: env.REPLY_TO
@@ -42,7 +42,7 @@ pipeline {
                 failure {
                     emailext (
                                 body:   env.FAIL_BODY_MAIL
-                              , attachmentsPattern: '**/*.png'
+                              , attachmentsPattern: 'build/report/*.*'
                               , attachLog: true
                               , from: env.REPLY_TO
                               , replyTo: env.REPLY_TO

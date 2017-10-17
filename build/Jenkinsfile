@@ -25,11 +25,12 @@ pipeline {
                 echo 'Start testing.....'
                 bat 'build/charles.bat'
                 echo 'End testing.....'
-            }
-           always {
+                always {
                    echo 'Getting the report....'
                    stash includes: 'build/report/*.*', name: 'report'
-           }
+                }
+            }
+
         }        
         stage('Deploy') {
             agent {

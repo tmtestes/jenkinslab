@@ -37,10 +37,11 @@ pipeline {
         }
     }
     post {
-          always {
-            agent {
+       agent {
                 label 'w10_lab'
             }
+          always {
+
             steps {
                 echo 'Getting the report....'
                 stash includes: 'build/report/*.*', name: 'report'

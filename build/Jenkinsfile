@@ -22,17 +22,18 @@ pipeline {
                 label 'w10_lab'
             }
             steps {
+                echo 'Start testing.....'
                 bat 'build/charles.bat'
-                stash includes: 'build/report/*.*', name: 'report'
-                echo 'Testing..'
+                echo 'End testing.....'
             }
         }        
-        stage('Deploy') {
+        stage('Get Report') {
             agent {
-                label 'master'
+                label 'w10_lab'
             }
             steps {
-                echo 'Deploying....'
+                echo 'Getting the report....'
+                stash includes: 'build/report/*.*', name: 'report'
                 checkout scm
             }
         }

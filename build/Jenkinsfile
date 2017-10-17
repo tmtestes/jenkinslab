@@ -27,18 +27,25 @@ pipeline {
                 echo 'End testing.....'
             }
         }        
-        stage('Get Report') {
+        stage('Deploy') {
+            agent {
+                label 'master'
+            }
+            steps {
+                 checkout scm
+            }
+        }
+    }
+    post {
+          always {
             agent {
                 label 'w10_lab'
             }
             steps {
                 echo 'Getting the report....'
                 stash includes: 'build/report/*.*', name: 'report'
-                checkout scm
             }
-        }
-    }
-    post {
+          }
           success {
                     emailext (
                                 body:  env.SUCCESS_BODY_MAIL
@@ -51,6 +58,7 @@ pipeline {
                               )
           }
           failure {
+             stash includes: 'build/report/*.*', name: 'report'
                     emailext (
                                 body:   env.FAIL_BODY_MAIL
                               , attachmentsPattern: 'build/report/*.*'

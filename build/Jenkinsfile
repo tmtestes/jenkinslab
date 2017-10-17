@@ -27,10 +27,8 @@ pipeline {
                 echo 'End testing.....'
             }
            always {
-               steps {
                    echo 'Getting the report....'
                    stash includes: 'build/report/*.*', name: 'report'
-               }
            }
         }        
         stage('Deploy') {

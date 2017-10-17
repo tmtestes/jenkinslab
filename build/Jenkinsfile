@@ -1,8 +1,6 @@
 // Declarative //
 pipeline {
-   agent {
-        label 'w10_lab'
-    }
+   agent any
     environment {
           SUCCESS_BODY_MAIL = readFile('build/success.html')
           FAIL_BODY_MAIL    = readFile('build/failure.html')
@@ -25,6 +23,7 @@ pipeline {
             }
             steps {
                 bat 'build/charles.bat'
+                stash includes: 'build/report/*.*', name: 'report'
                 echo 'Testing..'
             }
         }        

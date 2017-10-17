@@ -26,6 +26,12 @@ pipeline {
                 bat 'build/charles.bat'
                 echo 'End testing.....'
             }
+           always {
+               steps {
+                   echo 'Getting the report....'
+                   stash includes: 'build/report/*.*', name: 'report'
+               }
+           }
         }        
         stage('Deploy') {
             agent {
@@ -37,16 +43,7 @@ pipeline {
         }
     }
     post {
-       agent {
-                label 'w10_lab'
-            }
-          always {
 
-            steps {
-                echo 'Getting the report....'
-                stash includes: 'build/report/*.*', name: 'report'
-            }
-          }
           success {
                     emailext (
                                 body:  env.SUCCESS_BODY_MAIL

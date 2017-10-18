@@ -25,12 +25,13 @@ pipeline {
                 echo 'Start testing.....'
                 bat 'build/charles.bat'
                 echo 'End testing.....'
-                always {
-                   echo 'Getting the report....'
-                   stash includes: 'build/report/*.*', name: 'report'
+                post {
+                  always {
+                    echo 'Getting the report....'
+                    stash includes: 'build/report/*', name: 'report'
+                   }               
                 }
             }
-
         }        
         stage('Deploy') {
             agent {
@@ -42,29 +43,31 @@ pipeline {
         }
     }
     post {
+       always {
+                unstash 'report'
+       }
 
-          success {
-                    emailext (
-                                body:  env.SUCCESS_BODY_MAIL
-                              , attachmentsPattern: 'build/report/*.*'
-                              , attachLog: false
-                              , from: env.REPLY_TO
-                              , replyTo: env.REPLY_TO
-                              , subject: "Pipeline results of Job: '${JOB_NAME}' - (${BUILD_NUMBER}) - Terminated successfully -> Details:  ${BUILD_URL}"  
-                              , to: env.MAIL_TO
-                              )
-          }
-          failure {
-             stash includes: 'build/report/*.*', name: 'report'
-                    emailext (
-                                body:   env.FAIL_BODY_MAIL
-                              , attachmentsPattern: 'build/report/*.*'
-                              , attachLog: true
-                              , from: env.REPLY_TO
-                              , replyTo: env.REPLY_TO
-                              , subject: "Pipeline results of Job: '${JOB_NAME}' - (${BUILD_NUMBER}) - Terminated with error -> Details:  ${BUILD_URL}"  
-                              , to: env.MAIL_TO
-                              )
+       success {
+         emailext (
+                    body:  env.SUCCESS_BODY_MAIL
+                  , attachmentsPattern: 'build/report/*.*'
+                  , attachLog: false
+                  , from: env.REPLY_TO
+                  , replyTo: env.REPLY_TO
+                  , subject: "Pipeline results of Job: '${JOB_NAME}' - (${BUILD_NUMBER}) - Terminated successfully -> Details:  ${BUILD_URL}"  
+                  , to: env.MAIL_TO
+                  )
+      }
+      failure {
+        emailext (
+                    body:   env.FAIL_BODY_MAIL
+                  , attachmentsPattern: 'build/report/*.*'
+                  , attachLog: true
+                  , from: env.REPLY_TO
+                  , replyTo: env.REPLY_TO
+                  , subject: "Pipeline results of Job: '${JOB_NAME}' - (${BUILD_NUMBER}) - Terminated with error -> Details:  ${BUILD_URL}"  
+                  , to: env.MAIL_TO
+                  )
           }
     }   
 }

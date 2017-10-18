@@ -33,12 +33,14 @@ pipeline {
                 label 'master'
             }
             steps {
+                 echo 'Start Deploy.....'
                  checkout scm
             }
         }
     }
     post {
        always {
+                 echo 'Start Deploy.....'
                 unstash 'report'
        }
 

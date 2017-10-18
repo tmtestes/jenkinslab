@@ -28,8 +28,9 @@ pipeline {
                 stash includes: 'build/report/*', name: 'report'
                 echo 'End testing.....'
                 environment {
-                  currentBuild.result = readFile('/tmp/aa')
+                  TESTResult         = readFile('/tmp/aa')
                 }
+               echo TESTResult
             }
         }        
         stage('Deploy') {

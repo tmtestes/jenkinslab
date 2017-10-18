@@ -2,6 +2,7 @@
 pipeline {
    agent any
     environment {
+          TESTResult        = 0
           SUCCESS_BODY_MAIL = readFile('build/success.html')
           FAIL_BODY_MAIL    = readFile('build/failure.html')
           REPLY_TO          = ''
@@ -23,8 +24,8 @@ pipeline {
             }
             steps {
                 echo 'Start testing.....'
-                def testResult = bat 'build/charles.bat'
-                echo 'Testing result.....' + test
+                TESTResult = bat 'build/charles.bat'
+                echo 'Testing result.....' + TESTResult
                 stash includes: 'build/report/*', name: 'report'
                 currentBuild.result = testResult
             }

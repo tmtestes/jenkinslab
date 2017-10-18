@@ -25,7 +25,9 @@ pipeline {
                 echo 'Start testing.....'
                 bat(returnStatus:true, script: 'build/charles.bat')  
                 stash includes: 'build/report/*', name: 'report'
+                deleteDir()
                 echo "End testing.....: (${BUILD_STATUS}) "  
+                
             }
         }        
         stage('Deploy') {
@@ -40,7 +42,7 @@ pipeline {
     }
     post {
        always {
-                 echo 'Start Deploy.....'
+                echo 'Post build actions start.....'
                 unstash 'report'
        }
 
@@ -54,6 +56,7 @@ pipeline {
                   , subject: "Pipeline results of Job: '${JOB_NAME}' - (${BUILD_NUMBER}) - Terminated successfully -> Details:  ${BUILD_URL}"  
                   , to: env.MAIL_TO
                   )
+      
       }
       failure {
         emailext (

@@ -23,7 +23,7 @@ pipeline {
             }
             steps {
                 echo 'Start testing.....'
-                bat 'build/charles.bat > /tmp/aa' 
+                bat 'build/charles.bat > %TEMP%/aa' 
                 stash includes: 'build/report/*', name: 'report'
                 echo 'End testing.....'
             }

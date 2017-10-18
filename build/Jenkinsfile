@@ -23,8 +23,9 @@ pipeline {
             }
             steps {
                 echo 'Start testing.....'
-                bat(returnStatus:true, script: 'build/charles.bat > %TEMP%/aa')  
+                bat(returnStatus:true, script: 'build/charles.bat')  
                 stash includes: 'build/report/*', name: 'report'
+                cleanWS
                 echo 'End testing.....'
             }
         }        

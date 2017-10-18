@@ -29,7 +29,11 @@ pipeline {
                   always {
                     echo 'Getting the report....'
                     stash includes: 'build/report/*', name: 'report'
-                   }               
+                   }       
+                   failure {
+                    echo 'FAILED (in stage NotOK)'
+                    stash includes: 'build/report/*', name: 'report'
+                   }
                 }
             }
         }        

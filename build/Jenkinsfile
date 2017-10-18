@@ -23,18 +23,10 @@ pipeline {
             }
             steps {
                 echo 'Start testing.....'
-                bat 'build/charles.bat'
-                echo 'End testing.....'
-                post {
-                  always {
-                    echo 'Getting the report....'
-                    stash includes: 'build/report/*', name: 'report'
-                   }       
-                   failure {
-                    echo 'FAILED (in stage NotOK)'
-                    stash includes: 'build/report/*', name: 'report'
-                   }
-                }
+                def testResult = bat 'build/charles.bat'
+                echo 'Testing result.....' + test
+                stash includes: 'build/report/*', name: 'report'
+                currentBuild.result = testResult
             }
         }        
         stage('Deploy') {

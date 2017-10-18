@@ -24,10 +24,11 @@ pipeline {
             }
             steps {
                 echo 'Start testing.....'
-                TESTResult = bat 'build/charles.bat'
+                bat 'build/charles.bat > /tmp/aa' 
+                TESTResult = readFile('/tmp/aa')
                 echo 'Testing result.....' + TESTResult
                 stash includes: 'build/report/*', name: 'report'
-                currentBuild.result = testResult
+                currentBuild.result = TESTResult
             }
         }        
         stage('Deploy') {

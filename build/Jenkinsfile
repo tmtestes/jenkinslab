@@ -2,7 +2,6 @@
 pipeline {
    agent any
     environment {
-          TESTResult        = 0
           SUCCESS_BODY_MAIL = readFile('build/success.html')
           FAIL_BODY_MAIL    = readFile('build/failure.html')
           REPLY_TO          = ''
@@ -27,10 +26,6 @@ pipeline {
                 bat 'build/charles.bat > /tmp/aa' 
                 stash includes: 'build/report/*', name: 'report'
                 echo 'End testing.....'
-                environment {
-                  TESTResult         = readFile('/tmp/aa')
-                }
-               echo TESTResult
             }
         }        
         stage('Deploy') {

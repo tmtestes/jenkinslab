@@ -25,10 +25,11 @@ pipeline {
                 echo 'Start testing.....'
                 bat(returnStatus:true, script: 'build/charles.bat')  
                 stash includes: 'build/report/*', name: 'report'
+                echo ${BUILD_STATUS} 
+
                 dir('build/report') {
                   deleteDir()
                 }
-                echo "Result:" + ${BUILD_STATUS} 
             }
         }        
         stage('Deploy') {

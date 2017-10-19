@@ -24,15 +24,21 @@ pipeline {
             }
             steps {
                echo 'Start testing.....'
-               STATUS_CODE {
-                 bat script: 'build/charles.bat', returnStatus:true
+               script {
+                   try {
+                       // do something that doesn't fail
+                       bat script: 'build/charles.bat'
+                       currentBuild.result = 'SUCCESS'
+                   } catch (Exception err) {
+                       currentBuild.result = 'FAILURE'
+                   }
+                   stash includes: 'build/report/*', name: 'report'
+                   dir('build/report') {
+                     deleteDir()
+                   }
+                   echo "RESULT: ${currentBuild.result}"
                }
-               echo ${STATUS_CODE}
-               stash includes: 'build/report/*', name: 'report'
-                dir('build/report') {
-                  deleteDir()
-                }
-              
+               
             }
         }        
         stage('Deploy') {

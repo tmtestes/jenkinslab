@@ -24,7 +24,7 @@ pipeline {
             }
             steps {
                echo 'Start testing.....'
-               environment STATUS_CODE {
+               STATUS_CODE {
                  bat script: 'build/charles.bat', returnStatus:true
                }
                echo ${STATUS_CODE}

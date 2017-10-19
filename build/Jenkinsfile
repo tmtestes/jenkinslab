@@ -25,7 +25,7 @@ pipeline {
             steps {
                echo 'Start testing.....'
                script {
-                  def statusCode = bat(returnStatus:true, script: 'build/charles.bat')  
+                  def statusCode = bat script: 'build/charles.bat', returnStatus:true
                   echo statusCode
                }   
                stash includes: 'build/report/*', name: 'report'

@@ -24,8 +24,8 @@ pipeline {
             }
             steps {
                echo 'Start testing.....'
-               environment 'env1' {
-                  env.STATUS_CODE = bat script: 'build/charles.bat', returnStatus:true
+               environment STATUS_CODE {
+                 bat script: 'build/charles.bat', returnStatus:true
                }
                echo ${STATUS_CODE}
                stash includes: 'build/report/*', name: 'report'

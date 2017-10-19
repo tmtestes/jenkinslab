@@ -25,9 +25,10 @@ pipeline {
                 echo 'Start testing.....'
                 bat(returnStatus:true, script: 'build/charles.bat')  
                 stash includes: 'build/report/*', name: 'report'
-                deleteDir()
+                dir('build/report') {
+                  deleteDir()
+                }
                 echo "End testing.....: (${BUILD_STATUS}) "  
-                
             }
         }        
         stage('Deploy') {
@@ -56,9 +57,9 @@ pipeline {
                   , subject: "Pipeline results of Job: '${JOB_NAME}' - (${BUILD_NUMBER}) - Terminated successfully -> Details:  ${BUILD_URL}"  
                   , to: env.MAIL_TO
                   )
-         deleteDir()
-        
-      
+               dir('build/report') {
+                  deleteDir()
+               }
       }
       failure {
         emailext (
@@ -70,7 +71,8 @@ pipeline {
                   , subject: "Pipeline results of Job: '${JOB_NAME}' - (${BUILD_NUMBER}) - Terminated with error -> Details:  ${BUILD_URL}"  
                   , to: env.MAIL_TO
                   )
-        deleteDir()
+        dir('build/report') {
+          deleteDir()
         }
     }   
 }

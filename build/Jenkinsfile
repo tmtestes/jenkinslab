@@ -25,14 +25,14 @@ pipeline {
             steps {
                echo 'Start testing.....'
                script {
-                  def statusCode = bat script: 'build/charles.bat', returnStatus:true
-                  echo statusCode
+                  env.STATUS_CODE = bat script: 'build/charles.bat', returnStatus:true
+                  echo ${STATUS_CODE}
                }   
                stash includes: 'build/report/*', name: 'report'
                 dir('build/report') {
                   deleteDir()
                 }
-                echo env.STATUS_CODE
+                echo ${STATUS_CODE}
             }
         }        
         stage('Deploy') {

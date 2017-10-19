@@ -6,6 +6,7 @@ pipeline {
           FAIL_BODY_MAIL    = readFile('build/failure.html')
           REPLY_TO          = ''
           MAIL_TO           = 'mauricio.freire@tmtestes.com.br'
+          STATUS_CODE       = 0
     }
     stages {
         stage('Build') {
@@ -23,12 +24,12 @@ pipeline {
             }
             steps {
                 echo 'Start testing.....'
-                bat(returnStatus:false, script: 'build/charles.bat')  
+                STATUS_CODE = bat(returnStatus:true, script: 'build/charles.bat')  
                 stash includes: 'build/report/*', name: 'report'
                 dir('build/report') {
                   deleteDir()
                 }
-              
+                echo STATUS_CODE
             }
         }        
         stage('Deploy') {

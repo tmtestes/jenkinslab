@@ -28,7 +28,7 @@ pipeline {
                 dir('build/report') {
                   deleteDir()
                 }
-                echo "Result:" ${BUILD_STATUS} 
+                echo "Result:" + ${BUILD_STATUS} 
             }
         }        
         stage('Deploy') {

@@ -23,7 +23,7 @@ pipeline {
             }
             steps {
                 echo 'Start testing.....'
-                bat(returnStatus:true, script: 'build/charles.bat')  
+                bat(returnStatus:false, script: 'build/charles.bat')  
                 stash includes: 'build/report/*', name: 'report'
                 dir('build/report') {
                   deleteDir()

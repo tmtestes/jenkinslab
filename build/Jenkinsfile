@@ -23,9 +23,11 @@ pipeline {
                 label 'w10_lab'
             }
             steps {
-                echo 'Start testing.....'
-                STATUS_CODE = bat(returnStatus:true, script: 'build/charles.bat')  
-                stash includes: 'build/report/*', name: 'report'
+               echo 'Start testing.....'
+               script {
+                  STATUS_CODE = bat(returnStatus:true, script: 'build/charles.bat')  
+               }   
+               stash includes: 'build/report/*', name: 'report'
                 dir('build/report') {
                   deleteDir()
                 }
